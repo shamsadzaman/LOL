@@ -1,0 +1,56 @@
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src="leagueApp.js" ></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div ng-app="leagueApp" ng-controller="LeagueController">
+    text: {{summonerName.length}}
+    <br/> call made: {{numberOfApiCall}}
+    <div>
+      <input ng-model="summonerName" placeholder="Enter Summoner Name" size="50" />
+      <input type="button" ng-click="search()" value="search" />
+    </div>
+    <div class="error" ng-cloak>
+      {{errorMessage}}
+    </div>
+    <div ng-hide="summoner == undefined">
+      summoner: {{summoner}}
+      <br/> summoner id: {{summoner.data[summonerName].id}}
+    </div>
+    <div ng-hide="recentMatches == undefined">
+      <table class="dataTable" >
+        <tr>
+          <th>Game Mode</th>
+          <th>Game Type</th>
+          <th>KDA</th>
+          <th>KDA Ratio</th>
+          <th>Minions Killed</th>
+          <th>IP Earned</th>
+          <th>Damage Dealt To Champions</th>
+          <th>Gold Earned</th>
+          <th>Game Won</th>
+        </tr>
+        <tr ng-repeat="game in recentMatches.data.games" class="dataRow" ng-class="'dataRowWin' + game.stats.win">
+          <td>{{game.gameMode}}</td>
+          <td>{{game.gameType}}</td>
+          <td>{{showKDA(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists)}}</td>
+          <td>{{calculateKDARatio(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists)}}</td>
+          <td>{{game.stats.minionsKilled}}</td>
+          <td>{{game.ipEarned}}</td>
+          <td>{{game.stats.totalDamageDealtToChampions}}</td>
+          <td>{{game.stats.goldEarned}}</td>
+          <td>{{game.stats.win}}</td>
+        </tr>
+      </table>
+      <div>
+        <a href="#" ng-click="showRawRecentMatches = !showRawRecentMatches">{{showRawRecentMatches ? "hide" : "show"}} raw recent matches</a>
+        <div ng-show="showRawRecentMatches">
+          {{recentMatches}}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

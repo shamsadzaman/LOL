@@ -1,0 +1,39 @@
+.error {
+  background: pink;
+}
+
+.horizontalHeader{
+  list-style: none;
+}
+
+.horizontalHeader li{
+  display: inline;
+  padding: 5px 20px;
+}
+
+.horizontalData{
+  list-style: none;
+}
+
+.horizontalData li{
+  display: inline;
+  padding: 5px 10px;
+  margin-left: 25px;
+}
+
+.dataRow{
+  text-align:center;
+}
+
+.dataRowWintrue{
+  background: #8eff8e;
+}
+
+.dataRowWinfalse{
+  background: #f27676;
+}
+
+table,th,td{
+  border: 1px solid black;
+  padding: 5px;
+}
