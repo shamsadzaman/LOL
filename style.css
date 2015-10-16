@@ -1,3 +1,12 @@
+html{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+table,th,td{
+  border: 1px solid black;
+  padding: 5px;
+}
+
 .error {
   background: pink;
 }
@@ -25,15 +34,39 @@
   text-align:center;
 }
 
-.dataRowWintrue{
+.dataRowWin{
   background: #8eff8e;
 }
 
-.dataRowWinfalse{
+.dataRowDefeat{
   background: #f27676;
 }
 
-table,th,td{
-  border: 1px solid black;
-  padding: 5px;
+.isPerfect{
+  background: #799eff;
+  font-weight: bold;
+}
+
+.kda_0to1{
+  background: #ed5e5e 
+}
+
+.kda_1to2{
+  background: #e89292
+}
+
+.kda_2to3{
+  background: #3ef99f
+}
+
+.kda_3to5{
+  background: #3ef973 
+}
+
+.kda_5to7{
+  background: #3ef951
+}
+
+.kda_7up{
+  background: green
 }
