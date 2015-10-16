@@ -1,15 +1,17 @@
 <html>
+
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-  <script src="leagueApp.js" ></script>
+  <script src="leagueApp.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
   <div ng-app="leagueApp" ng-controller="LeagueController">
     text: {{summonerName.length}}
     <br/> call made: {{numberOfApiCall}}
     <div>
-      <input ng-model="summonerName" placeholder="Enter Summoner Name" size="50" />
+      <input ng-model="summonerName" placeholder="Enter Summoner Name" size="50" autofocus autocomplete="on"/>
       <input type="button" ng-click="search()" value="search" />
     </div>
     <div class="error" ng-cloak>
@@ -19,8 +21,10 @@
       summoner: {{summoner}}
       <br/> summoner id: {{summoner.data[summonerName].id}}
     </div>
+    <input type="button" value="Mock Result" ng-click="getMockData()" />
     <div ng-hide="recentMatches == undefined">
-      <table class="dataTable" >
+      <h4 ng-pluralize count="recentMatches.data.games.length" when="{0: 'no game found', other: 'record for last {} games' }"></h4>
+      <table class="dataTable">
         <tr>
           <th>Game Mode</th>
           <th>Game Type</th>
@@ -32,11 +36,15 @@
           <th>Gold Earned</th>
           <th>Game Won</th>
         </tr>
-        <tr ng-repeat="game in recentMatches.data.games" class="dataRow" ng-class="'dataRowWin' + game.stats.win">
+        <tr ng-repeat="game in recentMatches.data.games" class="" ng-class="game.stats.win ? 'dataRowWin' : 'dataRowDefeat'">
           <td>{{game.gameMode}}</td>
           <td>{{game.gameType}}</td>
-          <td>{{showKDA(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists)}}</td>
-          <td>{{calculateKDARatio(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists)}}</td>
+          <td>{{showKDA(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists)}}</td> 
+          <td ng-class="getKDAStyle(kdaRatio)">
+            {{
+              kdaRatio = calculateKDARatio(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists);
+            }}
+          </td>
           <td>{{game.stats.minionsKilled}}</td>
           <td>{{game.ipEarned}}</td>
           <td>{{game.stats.totalDamageDealtToChampions}}</td>
@@ -53,4 +61,5 @@
     </div>
   </div>
 </body>
+
 </html>
