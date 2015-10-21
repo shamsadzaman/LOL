@@ -70,3 +70,27 @@ table,th,td{
 .kda_7up{
   background: green
 }
+
+/*.animate-hide{
+  transition: all linear 0.5s;
+}
+
+.animate-hide.ng-hide{
+  line-height: 0;
+  padding: 0 10px;
+  opacity: 0;
+}*/
+
+.animate-hide {
+  transition: all linear 0.5s;
+  line-height: 20px;
+  opacity: 1;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.animate-hide.ng-hide {
+  line-height: 0;
+  opacity: 0;
+  padding: 0 10px;
+}

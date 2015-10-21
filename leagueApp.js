@@ -1,11 +1,10 @@
-angular.module('leagueApp', []);
+angular.module('leagueApp', ['ngAnimate']);
 angular.module('leagueApp').config(['$controllerProvider', function ($controllerProvider) {
   $controllerProvider.allowGlobals();
 }]);
 
 function LeagueController($scope, $http) {
   //TODO: need to figure out a way to put API key in separate file
-  const riotKey = "fa6d99e6-e8f6-4e16-b01a-9cf10755f296";
   const apiKey = "api_key=" + riotKey;
   const apiCallGetRecentMatches = "https://na.api.pvp.net/api/lol/na/v1.3/game/by-summoner/39226674/recent";
 
@@ -45,10 +44,9 @@ function LeagueController($scope, $http) {
   }
 
   $scope.getKDAStyle = function (kdaRatio) {
-    if (kdaRatio == "Perfect") {
+    if (kdaRatio == "Perfect")
       return "isPerfect";
-    }
-
+    
     kdaRatio = parseInt(kdaRatio);
 
     if (kdaRatio >= 0 && kdaRatio < 1)
@@ -68,7 +66,10 @@ function LeagueController($scope, $http) {
 
     if (kdaRatio >= 7)
       return "kda_7up";
-
+  }
+  
+  $scope.toggleHideRow = function(){
+    $scope.hideRow = !$scope.hideRow;
   }
 
   function getRecentMatches() {
@@ -128,7 +129,7 @@ function LeagueController($scope, $http) {
     return apiUrl;
   }
 
-  function getRecentMatchesMockUp() {
+  $scope.getMockData = function getRecentMatchesMockUp() {
     $scope.recentMatches = {
       data: {
         games: [
@@ -144,7 +145,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: false
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "CAP_5X5"
           },
           {
             gameMode: "CLASSIC",
@@ -158,7 +160,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: true
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "CAP_5X5"
           },
           {
             gameMode: "ARAM",
@@ -172,7 +175,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: false
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "BOT"
           },
           {
             gameMode: "classic",
@@ -186,7 +190,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: false
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "BOT"
           },
           {
             gameMode: "classic",
@@ -200,7 +205,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: false
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "ARAM_UNRANKED_5x5"
           },
           {
             gameMode: "classic",
@@ -214,7 +220,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: true
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "ONEFORALL_5x5"
           },
           {
             gameMode: "classic",
@@ -228,7 +235,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: true
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "NORMAL"
           },
           {
             gameMode: "classic",
@@ -242,7 +250,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: true
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "RANKED_SOLO_5x5"
           },
           {
             gameMode: "classic",
@@ -256,7 +265,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: false
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "NONE"
           },
           {
             gameMode: "classic",
@@ -270,7 +280,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: false
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "RANKED_TEAM_5x5"
           },
           {
             gameMode: "classic",
@@ -284,7 +295,8 @@ function LeagueController($scope, $http) {
               goldEarned: 2703,
               win: false
             },
-            ipEarned: 270
+            ipEarned: 270,
+            subType: "RANKED_TEAM_5x5"
           }
         ]
       }

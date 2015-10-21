@@ -2,8 +2,10 @@
 
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js"></script>
   <script src="leagueApp.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -24,21 +26,23 @@
     <input type="button" value="Mock Result" ng-click="getMockData()" />
     <div ng-hide="recentMatches == undefined">
       <h4 ng-pluralize count="recentMatches.data.games.length" when="{0: 'no game found', other: 'record for last {} games' }"></h4>
-      <table class="dataTable">
+      <table class="table">
         <tr>
           <th>Game Mode</th>
           <th>Game Type</th>
+          <th>Game SubType</th>
           <th>KDA</th>
           <th>KDA Ratio</th>
           <th>Minions Killed</th>
           <th>IP Earned</th>
           <th>Damage Dealt To Champions</th>
           <th>Gold Earned</th>
-          <th>Game Won</th>
         </tr>
-        <tr ng-repeat="game in recentMatches.data.games" class="" ng-class="game.stats.win ? 'dataRowWin' : 'dataRowDefeat'">
+        <tr ng-repeat="game in recentMatches.data.games" ng-class="{dataRowWin: game.stats.win, dataRowDefeat: !game.stats.win, 'animate-hide': true}" 
+            ng-hide="hideRow" ng-init="hideRow = false" ng-cloak>
           <td>{{game.gameMode}}</td>
           <td>{{game.gameType}}</td>
+          <td>{{game.subType}}</td>
           <td>{{showKDA(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists)}}</td> 
           <td ng-class="getKDAStyle(kdaRatio)">
             {{
@@ -49,7 +53,7 @@
           <td>{{game.ipEarned}}</td>
           <td>{{game.stats.totalDamageDealtToChampions}}</td>
           <td>{{game.stats.goldEarned}}</td>
-          <td>{{game.stats.win}}</td>
+          <td><a href='#' ng-click="hideRow = !hideRow">hide</a></td>
         </tr>
       </table>
       <div>
