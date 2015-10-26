@@ -9,61 +9,78 @@
 </head>
 
 <body>
-  <div ng-app="leagueApp" ng-controller="LeagueController">
-    text: {{summonerName.length}}
-    <br/> call made: {{numberOfApiCall}}
+<div ng-app="leagueApp" ng-controller="LeagueController">
+  text: {{summonerName.length}}
+  <br/> call made: {{numberOfApiCall}}
+  <div>
+    <input ng-model="summonerName" placeholder="Enter Summoner Name" size="50" autofocus autocomplete="on"/>
+    <input type="button" ng-click="search()" value="search" />
+  </div>
+  <div class="error" ng-cloak>
+    {{errorMessage}}
+  </div>
+  <div ng-hide="summoner == undefined">
+    summoner: {{summoner}}
+    <br/> summoner id: {{summoner.data[summonerName].id}}
+  </div>
+  <input type="button" value="Mock Result" ng-click="getMockData()" />
+  <div ng-hide="recentMatches == undefined">
+    <h4 ng-pluralize count="recentMatches.data.games.length" when="{0: 'no game found', other: 'record for last {} games' }"></h4>
+    <table class="table">
+      <tr>
+        <th>Game Mode</th>
+        <th>Game Type</th>
+        <th>Game SubType</th>
+        <th>KDA</th>
+        <th>KDA Ratio</th>
+        <th>Minions Killed</th>
+        <th>IP Earned</th>
+        <th>Damage Dealt To Champions</th>
+        <th>Gold Earned</th>
+      </tr>
+      <tr ng-repeat="game in recentMatches.data.games" ng-class="{dataRowWin: game.stats.win, dataRowDefeat: !game.stats.win, 'animate-hide': true}"
+          ng-hide="hideRow" ng-init="hideRow = false" ng-cloak>
+        <td>{{game.gameMode}}</td>
+        <td>{{game.gameType}}</td>
+        <td>{{game.subType}}</td>
+        <td>{{showKDA(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists)}}</td>
+        <td ng-class="getKDAStyle(kdaRatio)">
+          {{
+          kdaRatio = calculateKDARatio(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists);
+          }}
+        </td>
+        <td>{{game.stats.minionsKilled}}</td>
+        <td>{{game.ipEarned}}</td>
+        <td>{{game.stats.totalDamageDealtToChampions}}</td>
+        <td>{{game.stats.goldEarned}}</td>
+        <td><a href='#' ng-click="hideRow = !hideRow">hide</a></td>
+      </tr>
+      <tr>
+        <td><input type="text" ng-model="GameStats.gameMode" placeholder="Enter Game Mode"/></td>
+        <td><input type="text" ng-model="GameStats.gameType" placeholder="Enter Game Type"/></td>
+        <td><input type="text" ng-model="GameStats.subType" placeholder="Enter Sub Type"/></td>
+        <td>
+          <input type="text" ng-model="GameStats.stats.championsKilled" placeholder="# of kills"/>
+          <input type="text" ng-model="GameStats.stats.numDeaths" placeholder="# of deaths"/>
+          <input type="text" ng-model="GameStats.stats.assists" placeholder="# of assists"/>
+        </td>
+        <td ng-class="getKDAStyle(kdaRatio)">{{
+          kdaRatio = calculateKDARatio(GameStats.stats.championsKilled, GameStats.stats.numDeaths, GameStats.stats.assists);}}</td>
+        <td><input type="text" ng-model="GameStats.stats.minionsKilled" placeholder="cs"/></td>
+        <td><input type="text" ng-model="GameStats.ipEarned" placeholder="IP"/></td>
+        <td><input type="text" ng-model="GameStats.stats.totalDamageDealtToChampions" placeholder="Damage to Champs"/></td>
+        <td><input type="text" ng-model="GameStats.stats.goldEarned" placeholder="Gold Earned"/></td>
+        <td><input type="button" ng-click="AddGameStats(GameStats)" value="Add Game Stats" /></td>
+      </tr>
+    </table>
     <div>
-      <input ng-model="summonerName" placeholder="Enter Summoner Name" size="50" autofocus autocomplete="on"/>
-      <input type="button" ng-click="search()" value="search" />
-    </div>
-    <div class="error" ng-cloak>
-      {{errorMessage}}
-    </div>
-    <div ng-hide="summoner == undefined">
-      summoner: {{summoner}}
-      <br/> summoner id: {{summoner.data[summonerName].id}}
-    </div>
-    <input type="button" value="Mock Result" ng-click="getMockData()" />
-    <div ng-hide="recentMatches == undefined">
-      <h4 ng-pluralize count="recentMatches.data.games.length" when="{0: 'no game found', other: 'record for last {} games' }"></h4>
-      <table class="table">
-        <tr>
-          <th>Game Mode</th>
-          <th>Game Type</th>
-          <th>Game SubType</th>
-          <th>KDA</th>
-          <th>KDA Ratio</th>
-          <th>Minions Killed</th>
-          <th>IP Earned</th>
-          <th>Damage Dealt To Champions</th>
-          <th>Gold Earned</th>
-        </tr>
-        <tr ng-repeat="game in recentMatches.data.games" ng-class="{dataRowWin: game.stats.win, dataRowDefeat: !game.stats.win, 'animate-hide': true}" 
-            ng-hide="hideRow" ng-init="hideRow = false" ng-cloak>
-          <td>{{game.gameMode}}</td>
-          <td>{{game.gameType}}</td>
-          <td>{{game.subType}}</td>
-          <td>{{showKDA(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists)}}</td> 
-          <td ng-class="getKDAStyle(kdaRatio)">
-            {{
-              kdaRatio = calculateKDARatio(game.stats.championsKilled, game.stats.numDeaths, game.stats.assists);
-            }}
-          </td>
-          <td>{{game.stats.minionsKilled}}</td>
-          <td>{{game.ipEarned}}</td>
-          <td>{{game.stats.totalDamageDealtToChampions}}</td>
-          <td>{{game.stats.goldEarned}}</td>
-          <td><a href='#' ng-click="hideRow = !hideRow">hide</a></td>
-        </tr>
-      </table>
-      <div>
-        <a href="#" ng-click="showRawRecentMatches = !showRawRecentMatches">{{showRawRecentMatches ? "hide" : "show"}} raw recent matches</a>
-        <div ng-show="showRawRecentMatches">
-          {{recentMatches}}
-        </div>
+      <a href="#" ng-click="showRawRecentMatches = !showRawRecentMatches">{{showRawRecentMatches ? "hide" : "show"}} raw recent matches</a>
+      <div ng-show="showRawRecentMatches">
+        {{recentMatches}}
       </div>
     </div>
   </div>
+</div>
 </body>
 
 </html>
